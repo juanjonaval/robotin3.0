@@ -1,0 +1,6 @@
+MetaTrader5
+telethon
+pytz
+logging
+pandas 
+numpy
