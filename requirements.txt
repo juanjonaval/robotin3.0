@@ -1,6 +1,10 @@
 MetaTrader5
 telethon
 pytz
+<<<<<<< HEAD
 logging
 pandas 
 numpy
+=======
+logging
+>>>>>>> f486ac25b680dbe71de9e817c2886f4a806ac38a
