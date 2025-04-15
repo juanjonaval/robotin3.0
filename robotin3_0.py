@@ -33,7 +33,7 @@ except FileNotFoundError:
 except json.JSONDecodeError:
     logging.error("Error: Invalid JSON format in config.json")
 #Read variables
-timeframe = config["timeframe"]
+timeframe = getattr(mt5, config["timeframe"].split(".")[-1])
 lookback = config["lookback"]
 ema_length = config["ema_length"]
 leftBars = config["leftBars"]
