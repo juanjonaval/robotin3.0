@@ -3,16 +3,44 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import time
+import os
+import json
+import logging
+import sys
 
-# Parámetros del bot
-symbol = "XAUUSD"
-timeframe = mt5.TIMEFRAME_M1
-lookback = 400
-ema_length = 12
-leftBars = 2
-rightBars = 2
-tolerance = 0.0001 * 10  # Ajustá según el tick mínimo del broker
-log_file = "niveles_detectados.txt"
+# Configurar logging para escribir en archivo y en consola
+log_file = os.path.join("C:\\robapp\\binary", "robotin.log")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler(log_file, encoding="utf-8"),  # UTF-8 evita errores de emojis
+        logging.StreamHandler(sys.stdout)  # Mostrar en consola
+    ]
+)
+logging.info("Logging inicializado correctamente.")
+
+# Define the absolute path where config.json is stored
+config_path = r"C:\robapp\robotin3.0"  # Change this path if needed
+config_file = os.path.join(config_path, "config.json")
+try:
+    with open(config_file, 'r') as f:
+        config = json.load(f)
+#Enable print only for troubleshooting
+#       print("Config loaded successfully:", config)
+except FileNotFoundError:
+    logging.error(f"Error: config.json not found in {config_path}")
+except json.JSONDecodeError:
+    logging.error("Error: Invalid JSON format in config.json")
+#Read variables
+timeframe = getattr(mt5, config["timeframe"].split(".")[-1])
+lookback = config["lookback"]
+ema_length = config["ema_length"]
+leftBars = config["leftBars"]
+rightBars = config["rightBars"]
+tolerance = config["tolerance"] # Ajustá según el tick mínimo del broker
+symbol = config["symbol"]
+log_file = (config["log_file"])
 
 # Inicializar MetaTrader 5
 if not mt5.initialize():
