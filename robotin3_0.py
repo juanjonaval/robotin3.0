@@ -4,15 +4,19 @@ import numpy as np
 from datetime import datetime, timedelta
 import time
 
-# Parámetros del bot
-symbol = "XAUUSD"
-timeframe = mt5.TIMEFRAME_M1
-lookback = 400
-ema_length = 12
-leftBars = 2
-rightBars = 2
-tolerance = 0.0001 * 10  # Ajustá según el tick mínimo del broker
-log_file = "niveles_detectados.txt"
+
+# Define the absolute path where config.json is stored
+config_path = r"C:\robapp\robotin3.0"  # Change this path if needed
+config_file = os.path.join(config_path, "config.json")}
+#Read variables
+timeframe = config["timeframe"]
+lookback = config["lookback"]
+ema_length = config["ema_length"]
+leftBars = config["leftBars"]
+rightBars = config["rightBars"]
+tolerance = config["tolerance"] # Ajustá según el tick mínimo del broker
+symbol = config["symbol"]
+log_file = (config["log_file"])
 
 # Inicializar MetaTrader 5
 if not mt5.initialize():
